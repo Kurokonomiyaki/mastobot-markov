@@ -25,7 +25,7 @@ export const startBot = async () => {
   const nbNewSentences = await collectToots(settings);
   console.log(nbNewSentences, 'toot(s) collected');
   console.log('Updating model...');
-  const model = updateModelFromFile(nbNewSentences, settings.markovOrder);
+  const model = updateModelFromFile(settings, nbNewSentences, settings.markovOrder);
   console.log('Done.');
 
   const instance = new Mastodon({

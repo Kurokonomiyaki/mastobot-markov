@@ -65,7 +65,7 @@ var startBot = exports.startBot = function () {
 
             console.log(nbNewSentences, 'toot(s) collected');
             console.log('Updating model...');
-            model = (0, _markovmodel.updateModelFromFile)(nbNewSentences, settings.markovOrder);
+            model = (0, _markovmodel.updateModelFromFile)(settings, nbNewSentences, settings.markovOrder);
 
             console.log('Done.');
 
