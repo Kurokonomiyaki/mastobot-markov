@@ -31,7 +31,7 @@ A bot that collects toots from a Mastodon account, builds a markov-chain model a
     cp edit-these-settings.json settings.json
     ```
 
-    Edit `settings.json` and set the instance urls and access tokens. For knowing your account id, you need to go to your profile page while being logged and watch the end of the url, e.g., https://my.instance/web/accounts/`<your account id is here>`.
+    Edit `settings.json` and set the instance urls and access tokens. For knowing your account id, you need to go to your profile page while being logged and watch the end of the url, e.g., `https://my.instance/web/accounts/<your account id is here>`.
 
 4. Run the bot
 
