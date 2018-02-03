@@ -1,0 +1,5 @@
+node_modules/
+settings.json
+model.json
+sentences.dat
+lastexecution.dat

@@ -1,0 +1,19 @@
+{
+  "sourceInstanceUrl": "<your source instance API url, e.g., https://my.source.instance/api/v1>. The toots will be collected from this instance.",
+  "sourceInstanceToken": "<your access token for the source instance>",
+  "sourceAccountId": <your account id for the source instance, e.g., 12345>,
+  "ignoreDirectMessage": true,
+  "ignorePrivateMessage": true,
+  "ignoreUnlistedMessage": false,
+  "ignoreContentWarning": true,
+  "maxTootsToCollect": 1000000,
+  "destinationInstanceUrl": "<your destination instance API url, e.g., https://my.destination.instance/api/v1>. The bot will toot to this instance.",
+  "destinationInstanceToken": "<your access token for the destination instance>",
+  "tootOptions": {
+    "visibility": "unlisted",
+    "sensitive": false
+  },
+  "tootSuffix": "\n\n#markovbot",
+  "minTimeBetweenToots": 120,
+  "maxTimeBetweenToots": 360
+}
