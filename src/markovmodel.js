@@ -30,20 +30,20 @@ const updateModel = (data, order = 2, initialModel = {}) => {
   return model;
 };
 
-export const updateModelFromFile = (nbSentences, order = 2) => {
+export const updateModelFromFile = ({ sentencesFile, modelFile }, nbSentences, order = 2) => {
   let model = {};
   let sentences = [];
 
   // TODO must improve the file loading (line by line reading instead of loading everything into memory)
-  if (Fs.existsSync('model.json')) {
-    model = JSON.parse(Fs.readFileSync('model.json').toString());
+  if (Fs.existsSync(modelFile)) {
+    model = JSON.parse(Fs.readFileSync(modelFile).toString());
     if (nbSentences == null || nbSentences === 0) {
       return model;
     }
-    sentences = Fs.readFileSync('sentences.dat').toString().split('\n');
+    sentences = Fs.readFileSync(sentencesFile).toString().split('\n');
     sentences = sentences.slice(sentences.length - nbSentences);
   } else {
-    sentences = Fs.readFileSync('sentences.dat').toString().split('\n');
+    sentences = Fs.readFileSync(sentencesFile).toString().split('\n');
   }
 
   sentences.forEach((sentence) => {
@@ -52,7 +52,7 @@ export const updateModelFromFile = (nbSentences, order = 2) => {
     }
   });
 
-  Fs.writeFileSync('model.json', JSON.stringify(model), 'utf8');
+  Fs.writeFileSync(modelFile, JSON.stringify(model), 'utf8');
   return model;
 };
 

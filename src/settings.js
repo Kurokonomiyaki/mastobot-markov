@@ -8,7 +8,7 @@ const TOOT_OPTIONS = {
 };
 /** */
 
-export const getSettings = (file) => { 
+export const getSettings = (file) => {
   const data = Fs.readFileSync(file);
   if (data == null) {
     throw new Error('Unable to load settings');
@@ -65,6 +65,9 @@ export const getSettings = (file) => {
     markovOrder: 2,
     minTimeBetweenToots,
     maxTimeBetweenToots,
+    sentencesFile: `${__dirname}/../sentences.dat`,
+    lastExecutionFile: `${__dirname}/../lastexecution.dat`,
+    modelFile: `${__dirname}/../model.json`,
   };
 };
 

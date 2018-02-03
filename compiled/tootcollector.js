@@ -92,12 +92,12 @@ var processData = function () {
 var collectPage = function () {
   var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(settings, instance, fd, requestParams) {
     var isFirstPage = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : false;
-    var sourceAccountId, response;
+    var sourceAccountId, lastExecutionFile, response;
     return _regenerator2.default.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            sourceAccountId = settings.sourceAccountId;
+            sourceAccountId = settings.sourceAccountId, lastExecutionFile = settings.lastExecutionFile;
             _context2.next = 3;
             return instance.get('accounts/' + sourceAccountId + '/statuses', requestParams);
 
@@ -114,7 +114,7 @@ var collectPage = function () {
           case 6:
             if (isFirstPage) {
               console.log('Will collect everything after this toot:', response.data[0].id);
-              _fs2.default.writeFileSync('lastexecution.dat', response.data[0].id, 'utf8');
+              _fs2.default.writeFileSync(lastExecutionFile, response.data[0].id, 'utf8');
             }
 
             return _context2.abrupt('return', processData(settings, response.data, fd));
@@ -134,24 +134,25 @@ var collectPage = function () {
 
 var collectToots = exports.collectToots = function () {
   var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(settings) {
-    var instance, sinceId, nbNewSentences, maxId, fd, _loop, i, _ret;
+    var sentencesFile, lastExecutionFile, instance, sinceId, nbNewSentences, maxId, fd, _loop, i, _ret;
 
     return _regenerator2.default.wrap(function _callee3$(_context4) {
       while (1) {
         switch (_context4.prev = _context4.next) {
           case 0:
+            sentencesFile = settings.sentencesFile, lastExecutionFile = settings.lastExecutionFile;
             instance = new _mastodonApi2.default({
               access_token: settings.sourceInstanceToken,
               api_url: settings.sourceInstanceUrl
             });
             sinceId = null;
 
-            if (_fs2.default.existsSync('lastexecution.dat') && _fs2.default.existsSync('sentences.dat')) {
-              sinceId = _fs2.default.readFileSync('lastexecution.dat').toString().trim();
+            if (_fs2.default.existsSync(lastExecutionFile) && _fs2.default.existsSync(sentencesFile)) {
+              sinceId = _fs2.default.readFileSync(lastExecutionFile).toString().trim();
             }
             nbNewSentences = 0;
             maxId = null;
-            fd = _fs2.default.openSync('sentences.dat', 'a');
+            fd = _fs2.default.openSync(sentencesFile, 'a');
 
 
             console.log('Collecting first page:', maxId, sinceId);
@@ -206,35 +207,35 @@ var collectToots = exports.collectToots = function () {
             });
             i = 0;
 
-          case 9:
+          case 10:
             if (!(i < settings.maxPagesToCollect)) {
-              _context4.next = 17;
+              _context4.next = 18;
               break;
             }
 
-            return _context4.delegateYield(_loop(i), 't0', 11);
+            return _context4.delegateYield(_loop(i), 't0', 12);
 
-          case 11:
+          case 12:
             _ret = _context4.t0;
 
             if (!(_ret === 'break')) {
-              _context4.next = 14;
+              _context4.next = 15;
               break;
             }
 
-            return _context4.abrupt('break', 17);
+            return _context4.abrupt('break', 18);
 
-          case 14:
+          case 15:
             i += 1;
-            _context4.next = 9;
+            _context4.next = 10;
             break;
 
-          case 17:
+          case 18:
 
             _fs2.default.closeSync(fd);
             return _context4.abrupt('return', nbNewSentences);
 
-          case 19:
+          case 20:
           case 'end':
             return _context4.stop();
         }

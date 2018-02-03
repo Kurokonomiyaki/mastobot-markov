@@ -55,22 +55,24 @@ var updateModel = function updateModel(data) {
   return model;
 };
 
-var updateModelFromFile = exports.updateModelFromFile = function updateModelFromFile(nbSentences) {
-  var order = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 2;
+var updateModelFromFile = exports.updateModelFromFile = function updateModelFromFile(_ref, nbSentences) {
+  var sentencesFile = _ref.sentencesFile,
+      modelFile = _ref.modelFile;
+  var order = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 2;
 
   var model = {};
   var sentences = [];
 
   // TODO must improve the file loading (line by line reading instead of loading everything into memory)
-  if (_fs2.default.existsSync('model.json')) {
-    model = JSON.parse(_fs2.default.readFileSync('model.json').toString());
+  if (_fs2.default.existsSync(modelFile)) {
+    model = JSON.parse(_fs2.default.readFileSync(modelFile).toString());
     if (nbSentences == null || nbSentences === 0) {
       return model;
     }
-    sentences = _fs2.default.readFileSync('sentences.dat').toString().split('\n');
+    sentences = _fs2.default.readFileSync(sentencesFile).toString().split('\n');
     sentences = sentences.slice(sentences.length - nbSentences);
   } else {
-    sentences = _fs2.default.readFileSync('sentences.dat').toString().split('\n');
+    sentences = _fs2.default.readFileSync(sentencesFile).toString().split('\n');
   }
 
   sentences.forEach(function (sentence) {
@@ -80,7 +82,7 @@ var updateModelFromFile = exports.updateModelFromFile = function updateModelFrom
     }
   });
 
-  _fs2.default.writeFileSync('model.json', (0, _stringify2.default)(model), 'utf8');
+  _fs2.default.writeFileSync(modelFile, (0, _stringify2.default)(model), 'utf8');
   return model;
 };
 

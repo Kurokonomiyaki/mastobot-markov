@@ -24,33 +24,34 @@ const processData = async ({ allowedVisibilities, ignoreContentWarning }, toots,
 };
 
 const collectPage = async (settings, instance, fd, requestParams, isFirstPage = false) => {
-  const { sourceAccountId } = settings;
+  const { sourceAccountId, lastExecutionFile } = settings;
   const response = await instance.get(`accounts/${sourceAccountId}/statuses`, requestParams);
   if (response.data == null || response.data.length === 0) {
     return { lastId: -1, nbSentences: 0 };
   }
   if (isFirstPage) {
     console.log('Will collect everything after this toot:', response.data[0].id);
-    Fs.writeFileSync('lastexecution.dat', response.data[0].id, 'utf8');
+    Fs.writeFileSync(lastExecutionFile, response.data[0].id, 'utf8');
   }
 
   return processData(settings, response.data, fd);
 };
 
 export const collectToots = async (settings) => {
+  const { sentencesFile, lastExecutionFile } = settings;
   const instance = new Mastodon({
     access_token: settings.sourceInstanceToken,
     api_url: settings.sourceInstanceUrl,
   });
 
   let sinceId = null;
-  if (Fs.existsSync('lastexecution.dat') && Fs.existsSync('sentences.dat')) {
-    sinceId = Fs.readFileSync('lastexecution.dat').toString().trim();
+  if (Fs.existsSync(lastExecutionFile) && Fs.existsSync(sentencesFile)) {
+    sinceId = Fs.readFileSync(lastExecutionFile).toString().trim();
   }
   let nbNewSentences = 0;
   let maxId = null;
 
-  const fd = Fs.openSync('sentences.dat', 'a');
+  const fd = Fs.openSync(sentencesFile, 'a');
 
   console.log('Collecting first page:', maxId, sinceId);
 

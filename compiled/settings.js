@@ -84,7 +84,10 @@ var getSettings = exports.getSettings = function getSettings(file) {
     tootSuffix: customSettings.tootSuffix || null,
     markovOrder: 2,
     minTimeBetweenToots: minTimeBetweenToots,
-    maxTimeBetweenToots: maxTimeBetweenToots
+    maxTimeBetweenToots: maxTimeBetweenToots,
+    sentencesFile: __dirname + '/../sentences.dat',
+    lastExecutionFile: __dirname + '/../lastexecution.dat',
+    modelFile: __dirname + '/../model.json'
   };
 };
 
